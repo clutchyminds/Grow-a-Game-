@@ -49,11 +49,17 @@ anim_timer = 0        # Pour timing animation
 anim_speed = 0.12     # Durée (sec) avant de passer à la frame suivante
 
 # ====================== NOMS DES CALQUES ========================
+#calque bsique
 calque_bas = "Calque 1"
-calques_haut = ["Calque 2", "Calque 3", "Calque 4", "Calque 41", "Calque 5"]
+calques_haut = ["Calque 2", "Calque 3", "Calque 4", "Calque 41", "Calque 5", "Calque 6", "Calque 61", "Calque 7"]
 calque_collision = "Calque 2"
+#calque tp
+#maison
 calque_tp4 = "Calque 4"
 calque_tp41 = "Calque 41" #41 car on ne peux pas mettre 4.1 ou 4-1
+#salle des trophée
+calque_tp6 = "Calque 6"
+calque_tp61 = "Calque 61"
 
 def pos_to_grid(px, py):
     return int(px // MAP_TILE_W), int(py // MAP_TILE_H)
@@ -81,6 +87,24 @@ def tile_tp41(px, py):
     if 0 <= grid_x < MAP_WIDTH and 0 <= grid_y < MAP_HEIGHT:
         for layer in tmx_data.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer) and layer.name == calque_tp41:
+                gid = layer.data[grid_y][grid_x]
+                return gid != 0
+    return False
+
+def tile_tp6(px, py):
+    grid_x, grid_y = pos_to_grid(px, py)
+    if 0 <= grid_x < MAP_WIDTH and 0 <= grid_y < MAP_HEIGHT:
+        for layer in tmx_data.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer) and layer.name == calque_tp6:
+                gid = layer.data[grid_y][grid_x]
+                return gid != 0
+    return False
+
+def tile_tp61(px, py):
+    grid_x, grid_y = pos_to_grid(px, py)
+    if 0 <= grid_x < MAP_WIDTH and 0 <= grid_y < MAP_HEIGHT:
+        for layer in tmx_data.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer) and layer.name == calque_tp61:
                 gid = layer.data[grid_y][grid_x]
                 return gid != 0
     return False
@@ -233,7 +257,18 @@ while en_cours:
         print("Téléportation !")
 
     if tile_tp41(joueur_px, joueur_py):
-        dest_x, dest_y = 109, 97
+        dest_x, dest_y = 92, 98
+        joueur_px = dest_x * MAP_TILE_W
+        joueur_py = dest_y * MAP_TILE_H
+        print("Téléportation !")
+    if tile_tp6(joueur_px, joueur_py):
+        dest_x, dest_y = 171, 123
+        joueur_px = dest_x * MAP_TILE_W
+        joueur_py = dest_y * MAP_TILE_H
+        print("Téléportation !")
+
+    if tile_tp61(joueur_px, joueur_py):
+        dest_x, dest_y = 121, 94
         joueur_px = dest_x * MAP_TILE_W
         joueur_py = dest_y * MAP_TILE_H
         print("Téléportation !")
